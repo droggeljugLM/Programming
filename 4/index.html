@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>逻辑式编程（Logic Programming） - Programming</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Programming</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="逻辑式编程logic-programming"><a class="header" href="#逻辑式编程logic-programming">逻辑式编程（Logic Programming）</a></h1>
+<h2 id="产生背景"><a class="header" href="#产生背景">产生背景</a></h2>
+<p>逻辑式编程起源于20世纪70年代初，源自人工智能和自动推理领域的研究成果。早期的计算机主要用于数值计算，而人工智能的研究者希望计算机能够基于知识和逻辑推理自动“思考”。</p>
+<p>1972年，Prolog语言的诞生标志着逻辑编程范式的形成。Prolog语言的设计理念是通过<strong>声明事实和规则，由计算机自动推导结论</strong>，这使得计算机可以在不需要显式编写算法的情况下，自动执行推理过程。</p>
+<p>在此之前，命令式和函数式编程范式对于某些问题（如定理证明、组合搜索）并不直观，因为程序员需要手工编码搜索算法。而逻辑编程则希望程序员只需描述<strong>问题的逻辑关系</strong>，求解过程由通用的推理机制来完成。这一思想受一阶谓词逻辑和分辨率原理的影响，尤其是 J. Alan Robinson 在1965年提出的<strong>分辨率</strong>方法，为机械逻辑推理奠定了基础。</p>
+<p>20世纪70年代，人工智能成为热门研究方向，许多国家投入了大量的资源，特别是在逻辑推理和专家系统的研究上，推动了逻辑式编程的发展。尤其是日本在1980年代启动的著名的第五代计算机项目，试图以逻辑编程（Prolog）为核心开发智能计算机。该项目极大地提高了逻辑编程的知名度，并加大了对其研究的投入。</p>
+<p>此外，像自然语言处理、定理验证等特定领域也对基于规则推理的编程方式有着强烈需求。可以说，逻辑式编程的诞生是人工智能技术发展和逻辑推理技术成熟的共同结果。</p>
+<h2 id="内因与外因"><a class="header" href="#内因与外因">内因与外因</a></h2>
+<h3 id="内在动机"><a class="header" href="#内在动机">内在动机</a></h3>
+<p>逻辑式编程的出现，源自对突破传统编程范式在知识表达上的局限性的需求。在命令式和函数式编程中，程序员需要明确地规定求解步骤或函数组合，但对于像谜题求解、约束满足等问题，求解路径往往复杂多变。</p>
+<p>如果能够直接告诉计算机问题的约束和规则，让计算机自己搜索并找到解答，将大大简化编程工作。逻辑编程正是围绕这个思路设计的：程序由<strong>事实</strong>（Facts）和<strong>规则</strong>（Rules）组成，<strong>查询</strong>（Query）作为问题输入，计算机通过通用的推理引擎（通常采用回溯搜索算法）来寻找使查询为真的解。</p>
+<p>这样的设计使得程序逻辑高度抽象，程序员不需要关心控制流程，而是将控制权交给解释器和推理引擎。</p>
+<h3 id="外部推动"><a class="header" href="#外部推动">外部推动</a></h3>
+<p>人工智能领域的需求是逻辑编程发展的主要外因。专家系统需要表示知识库和推理规则，而用传统的代码实现这些功能非常繁琐。逻辑式编程天生适合知识表示，能够直接表达“如果...那么...”这类规则。因此，逻辑式编程被广泛应用于专家系统、自然语言处理和硬件电路验证等领域。</p>
+<p>例如，在医学诊断系统中，可以用逻辑规则表示疾病与症状之间的关系，然后通过推理，系统可以基于患者的症状推断出可能的疾病。类似的应用也存在于语法解析、定理验证等领域，证明了逻辑式编程在实际应用中的巨大潜力。</p>
+<p>此外，学术界在逻辑推理和自动证明方面积累了丰富的理论基础（如一阶逻辑、Horn子句理论等），为逻辑编程的进一步发展提供了坚实的理论支持。随着计算机硬件性能的逐步提升，能够承担更多逻辑推理的计算任务，客观上也为逻辑编程的出现提供了条件。</p>
+<h2 id="核心编程机制与思维方式"><a class="header" href="#核心编程机制与思维方式">核心编程机制与思维方式</a></h2>
+<p>逻辑式编程采用了与命令式完全不同的工作机制，被称为 <strong>“声明式编程”</strong> 的典型代表之一。
+在这种范式中，程序员不再指定算法步骤，而是<strong>声明问题的事实和规则**，剩下的交给解释器自动推理​。
+以Prolog为例，其程序由一组</strong>公理**组成：Facts（无条件为真的基本事实）和Rules（蕴含式形式的规则）。
+例如，我们可以有事实<code>parent(alice, bob).</code>（Alice是Bob的父母）和规则<code>grandparent(X, Z) :- parent(X, Y), parent(Y, Z).</code>（如果X是Y的父母且Y是Z的父母，则X是Z的祖父母）​​。
+给定这些，查询<code>?- grandparent(alice, W).</code>会让系统寻找所有满足条件的W。</p>
+<p>逻辑编程的<strong>核心机制</strong>包括：<strong>模式匹配</strong>和<strong>回溯搜索</strong>。
+当提出一个查询时，解释器尝试将其与已知事实或规则后件匹配，若规则适用则递归地尝试满足规则前件的子目标。
+这一过程会在需要时自动进行回溯（backtracking），尝试不同的可能，直到找到解或证明无解​。
+程序员无需手工编写循环或递归去遍历可能性——引擎会穷尽搜索空间（在逻辑约束下剪枝）。</p>
+<p>思维方式上，逻辑式编程强调 <strong>“是什么”</strong> 而非 <strong>“怎么做”</strong> ，开发者关心的是问题的逻辑关系是否正确完整，而不是执行顺序。
+可以说逻辑编程让计算机扮演了“推理者”的角色，程序员则像是给出公理体系的“数理逻辑学家”。
+这种方式非常利于表达<strong>复杂关系和约束</strong>：当条件较多、人脑难以逐一考虑周全时，让计算机搜索往往更可靠。</p>
+<p>当然，逻辑编程也有其局限——通常它采用<strong>深度优先搜索</strong>加<strong>回溯</strong>的方法，编程时需要注意<strong>防止无穷递归</strong>和<strong>确保搜索空间有限</strong>。</p>
+<p>总的来说，逻辑式范式提供了一种高度抽象的编程手段，让程序更像是在陈述“真理”而非执行过程，其心智模型接近数学逻辑推理。</p>
+<h2 id="解决了前代范式的哪些问题"><a class="header" href="#解决了前代范式的哪些问题">解决了前代范式的哪些问题</a></h2>
+<p>逻辑式编程在特定问题领域相比传统范式具有显著优势。</p>
+<p>首先，它<strong>极大地简化了复杂问题的表达</strong>。
+对于涉及约束求解、组合搜索的问题，逻辑编程允许用接近自然语言逻辑的形式来描述问题，而不必嵌入繁琐的搜索算法。
+例如，用几行Prolog规则就可以表达数独谜题的约束条件，然后让系统自己搜索解答，这种简洁性是命令式代码难以达到的​。
+正因如此，逻辑式非常擅长<strong>表达复杂关系</strong>——人类将知识以规则形式输入计算机，计算机自动推理结论，这使得代码量大幅减少，<strong>可读性提高</strong>​。</p>
+<p>其次，逻辑式编程内置了<strong>强大的推理能力</strong>。
+利用内建的回溯和统一算法，逻辑语言可以在给定知识库的基础上回答各种复杂查询​。
+程序员无需为每种新查询写专门的代码，只要知识库涵盖相关知识，推理机制就能产生结果。
+这在专家系统中尤为重要，<strong>提高了系统的智能性</strong>和通用性。</p>
+<p>第三，逻辑编程<strong>将控制与逻辑分离</strong>，解决了传统编程中“问题逻辑混杂在控制流程里”的问题。
+逻辑式程序描述<strong>是什么为真</strong>，而不描述过程细节，这种高度声明式的风格使程序更易于维护和修改——新增知识往往只需添加事实或规则，而不需要重构算法。
+当需求变化时，我们修改逻辑声明即可，推理引擎会相应调整结论推导。</p>
+<p>最后，逻辑式编程的出现还<strong>拓宽了编程应用范围</strong>。
+以前难以编程解决的问题（如自动定理证明、符号人工智能问题）因为有了逻辑语言而成为可能。
+可以说，逻辑式编程为计算机开辟了从“计算”到“推理”的新天地，将编程范式扩展到知识处理领域​。</p>
+<p>综上，逻辑式编程通过<strong>高层次的知识表达和自动推理</strong>，有效解决了传统范式在复杂推理、搜索领域的笨拙和力不从心。</p>
+<h2 id="自身带来的新问题和挑战"><a class="header" href="#自身带来的新问题和挑战">自身带来的新问题和挑战</a></h2>
+<p>然而，逻辑式编程也有明显的局限和挑战。</p>
+<p>首先是<strong>性能问题</strong>。
+逻辑推理本质上可能涉及巨大的搜索空间，通用的回溯算法在求解复杂问题时效率堪忧。
+如果没有充分限制，逻辑程序可能在指数级组合中穷举，导致运行缓慢​。
+与等价的手工优化算法相比，Prolog等解释器的执行往往更低效，这限制了逻辑编程在一些对性能敏感场景的应用。</p>
+<p>其次，<strong>调试困难</strong>。
+逻辑程序的执行路径由系统决定，程序员很难直观跟踪和控制。
+当推理未得到期望结果时，找出是哪条规则或哪个分支导致失败并不容易。
+此外，逻辑式缺乏常规过程调试手段（如逐步执行变量检查），需要借助追踪器等专门工具。</p>
+<p>第三，<strong>思维门槛高</strong>。
+逻辑编程要求开发者具备逻辑推理思维，对习惯过程式的人来说是种挑战​。
+很多程序员初学Prolog时不适应其非过程的控制流：你可能写下简单的规则，却意外地陷入无限递归或重复解，这需要转变思考方式才能驾驭。
+因此，逻辑式一直是相对小众的技能，人才培养和社区规模相比OOP要小。</p>
+<p>第四，逻辑编程<strong>适用范围有限</strong>。
+它擅长宣告式推理问题，但对于I/O操作、用户界面这类需要精确定义过程的任务并不便利。
+例如，用Prolog写一个交互式GUI程序会很困难，因为范式上不适合。
+现实开发中，大部分应用程序仍需要过程化步骤，逻辑式通常只能嵌入在特定子系统中（比如规则引擎）。</p>
+<p>最后，逻辑编程实现之间<strong>互操作性和标准化</strong>问题也曾是瓶颈。
+不同Prolog系统的语法和内建谓词略有差异，和其它语言集成也不如主流语言方便。</p>
+<p>这些因素都限制了逻辑式编程的普及。
+尽管如此，在它擅长的领域（比如约束求解、规则系统），逻辑式编程依然是不容忽视的工具，其挑战更多地体现为如何<strong>优化性能</strong>和<strong>降低使用门槛</strong>​。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../3/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../5/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../3/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../5/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

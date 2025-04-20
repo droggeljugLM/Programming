@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>声明式编程（Declarative Programming） - Programming</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Programming</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="声明式编程declarative-programming"><a class="header" href="#声明式编程declarative-programming">声明式编程（Declarative Programming）</a></h1>
+<h2 id="产生背景"><a class="header" href="#产生背景">产生背景</a></h2>
+<p>声明式编程并非单一具体的范式，而是一种编程风格的总称。它的核心思想是：<strong>描述期望的结果，而非实现结果的步骤</strong>。这种理念贯穿于函数式编程、逻辑式编程等多个编程范式中，但也在一些特定领域独立演化出了典型的声明式语言。</p>
+<p>早在20世纪60年代末，关注“做什么而不是怎么做”的思想首次出现在数据库领域。1970年，E.F. Codd提出了关系模型，随后关系查询语言（如SQL）问世，使得用户可以声明查询条件，由系统来决定查询的执行方案。这可以视为声明式编程思想的早期成功应用。</p>
+<p>随后，在文本处理领域，正则表达式、文本模式匹配工具（如sed、AWK等）也采用了声明式范式。用户只需要给出匹配模式和替换模板，无需编写显式的循环和条件判断。这些应用进一步展示了声明式编程的便利性和简洁性。</p>
+<p>进入21世纪，声明式编程的范式逐渐普及：配置管理工具使用JSON/YAML等描述文件，基础设施即代码（IaC）工具采用声明式脚本，前端开发使用声明式UI框架（如React的JSX描述界面状态）。这些现象反映了声明式编程思想在各个领域的广泛应用。</p>
+<h2 id="内因与外因"><a class="header" href="#内因与外因">内因与外因</a></h2>
+<h3 id="内在动机"><a class="header" href="#内在动机">内在动机</a></h3>
+<p>传统的命令式编程要求开发者精确地控制程序的执行流程，这对于<strong>算法复杂、步骤繁琐</strong>的问题来说容易出错且冗长。以SQL查询为例，手写的查询代码往往需要多层嵌套的循环和条件判断，既繁琐又性能不佳。</p>
+<p>声明式编程的内在驱动力是<strong>简化程序并减少人为控制所带来的错误</strong>。通过提升抽象层次，将“怎么做”交给通用引擎处理，开发者可以避免人为失误，并且更容易在更高层面上优化执行。对于<strong>问题空间固定、模式明显</strong>的领域（如日志筛选、文本转换等），预先构建通用的执行模型（如规则匹配引擎）显然比每次让程序员从零开始写流程更加高效。</p>
+<p>这种设计思想催生了许多声明式语言，能够大大简化编程的复杂度并提高开发效率。</p>
+<h3 id="外部推动"><a class="header" href="#外部推动">外部推动</a></h3>
+<p>声明式编程的<strong>外部推动</strong>主要来自多个产业需求。</p>
+<p>首先是<strong>生产力需求</strong>，软件行业始终追求用更少的代码实现更多的功能。声明式编程正是一种大幅减少代码量的方法。比如，与几百行命令式代码相比，一条SQL查询语句就能完成同样的任务，这种<strong>开发效率提升</strong>对于企业具有极大的吸引力。</p>
+<p>其次，<strong>维护性要求</strong>也推动了声明式编程的普及。企业软件需要长期演进，而声明式描述通常更接近业务语义，不容易受到实现变更的影响，因此更适合长期维护和团队协作。</p>
+<p>此外，<strong>并发与分布式环境</strong>的出现也推动了声明式编程的应用。在这些环境中，手动控制执行流程十分复杂，而将逻辑以声明式方式表达出来，由调度系统自动决定并行执行和通信顺序，极大简化了编程过程。MapReduce就是一个典型的例子，它通过声明计算任务然后进行分布式执行，提升了大规模计算的效率。</p>
+<p>最后，<strong>非程序员用户的参与</strong>也是推动声明式编程普及的重要因素。某些声明式语言（如SQL、图形化工作流）可以被业务人员或领域专家使用，这拓宽了软件开发的参与者范围，增加了这些语言在企业中的重视度。</p>
+<h2 id="核心编程机制与思维方式"><a class="header" href="#核心编程机制与思维方式">核心编程机制与思维方式</a></h2>
+<p>声明式编程的核心在于<strong>声明“是什么”</strong>。
+程序员编写代码时，更多地是在描述<strong>期望的结果、属性或关系</strong>，而不是具体的控制流程​。
+这通常意味着：由底层实现提供一种通用算法，根据声明式描述自动完成求解。</p>
+<p>典型机制如：<strong>约束求解</strong>（constraint solving）、<strong>规则重写</strong>、<strong>模式匹配</strong>、<strong>查询优化</strong>等等，都是声明式系统内部可能用到的方法。</p>
+<p>从编程者的角度，声明式编程往往具备以下特征：</p>
+<ul>
+<li><strong>高度抽象的语法</strong>：代码接近问题域语言，例如SQL用类英语的句子描述查询条件，正则表达式用模式串直接描述文本特征​。</li>
+<li><strong>不可见的控制流</strong>：程序看不到显式的循环或分支，这些都由解释器/引擎在执行时根据需要产生，程序文本本身更像是规格说明。</li>
+<li><strong>引用透明/无副作用</strong>：许多声明式语言避免显式的可变状态（例如SQL查询被视作无副作用，不修改数据库，只描述结果）。</li>
+</ul>
+<p>这使得声明式代码片段可以任意重组而不会相互影响。</p>
+<p>举例来说，在声明式GUI框架中，开发者只需声明界面布局和各组件状态随数据变化的关系，框架会自动在需要时更新DOM，而不需要手动操作DOM元素。
+这与命令式GUI编程形成鲜明对比。</p>
+<p>思维方式上，声明式编程更接近<strong>描述</strong>而非<strong>指挥</strong>。
+许多文章将其类比为“说出想要什么，就像向厨师点菜，而不用亲自下厨”​。
+程序员关注的是问题的<strong>目标状态</strong>，相信底层系统能找到实现该目标的方法。
+这种思路可以让人从细节中解脱，专注于业务逻辑或约束本身。</p>
+<p>然而，它也要求对<strong>底层机制有信任</strong>且<strong>接受一定程度的不可控</strong>。
+在声明式范式中，调试往往意味着验证声明是否正确而非跟踪执行步骤，因为执行步骤对开发者而言并不是直接可见的。</p>
+<h2 id="解决了前代范式的哪些问题"><a class="header" href="#解决了前代范式的哪些问题">解决了前代范式的哪些问题</a></h2>
+<p>声明式编程通过提高抽象层次，解决了命令式范式的一些痛点。</p>
+<p>首先，<strong>代码量和复杂度大幅降低</strong>。
+同样任务，用声明式往往只需几行语句，而命令式可能要几十行详细步骤​。
+这意味着更少的bug和更低的维护成本。
+高度浓缩的表达使程序逻辑一目了然，复杂业务规则能以接近自然语言的形式呈现​。</p>
+<p>其次，<strong>维护和优化变得更容易</strong>。
+由于实现与意图分离，声明式程序可以在不改变需求描述的情况下优化执行算法​。
+例如数据库系统可以针对同一SQL查询在新版本中采用更优算法，而应用开发者无需修改SQL代码。
+这种<strong>实现透明</strong>性使得程序具有更好的向后兼容和可移植性。
+对于维护人员来说，如果业务需求改变，只需更新声明式规则/查询，相比之下命令式代码需要改动流程，风险更高。
+​声明式方式适合快速建模和原型设计，具体实现细节可以后期再定。
+这种特性也解决了前代范式下，实现和需求混杂导致的修改困难问题。</p>
+<p>第三，声明式编程<strong>减少了人员技能壁垒</strong>。
+在一些领域，声明式语言（如SQL、CSS、正则）被广泛使用，即使非纯粹编程人员也能掌握。
+这扩大了参与开发和调优的人群。
+例如数据分析师可以直接写SQL获取数据，而不必委托工程师编写数据提取代码。
+这种融合提升了生产力。</p>
+<p>第四，对于<strong>并发和分布式</strong>任务，声明式提供了一种优雅解决方案。
+例如在Reactive声明式框架中，开发者声明数据流关系，框架自动处理异步执行和事件传播，避免了命令式回调地狱的问题​。
+再如使用声明式MapReduce模型，用户只需声明map和reduce逻辑，系统负责并行调度到分布式节点执行。
+可以说，声明式范式<strong>解除了程序员对底层流程管理的负担</strong>，使许多以前复杂的问题变得相对简单。</p>
+<p>最后，由于声明式强调结果，往往能<strong>鼓励更清晰的设计</strong>。
+开发者在编写声明式代码时必须仔细思考想要的输出/性质，这有助于澄清需求本身，避免陷入过程细节而忽略了真正的目标。</p>
+<h2 id="自身带来的新问题和挑战"><a class="header" href="#自身带来的新问题和挑战">自身带来的新问题和挑战</a></h2>
+<p>然而，声明式编程也并非没有缺点。</p>
+<p>首先，<strong>过度抽象导致理解困难</strong>。
+声明式代码虽短，但有时非常晦涩，特别是对于没有编写它的人来说​。
+例如复杂的正则表达式或多表嵌套SQL查询，可能只有原作者能读懂​。
+当声明式代码变得复杂时，缺少过程化的分步结构，调试和理解难度甚至超过了命令式实现。
+这对团队协作和长期维护是不利的，需要严格的文档和规范来弥补。</p>
+<p>其次，<strong>对实现的不可控</strong>既是优点也是缺陷。
+开发者将控制权交给系统，万一系统的执行策略没有达到期望（例如性能不佳），调优会比较棘手。
+往往我们只能通过修改声明间接影响执行，而无法像命令式那样逐行调整。
+​声明式方案的一个劣势是通用算法有时难以顾及具体应用的特殊性，可能无法充分优化某些个性化需求。
+这种局限在需要精细控制性能的场景（如嵌入式实时系统）尤其明显。</p>
+<p>此外，<strong>思维模型差异</strong>带来的<strong>学习成本</strong>也是挑战之一。
+人更习惯过程性的因果思维，而声明式要求从目标倒推，这需要训练。
+初学声明式的人常常会因为不习惯“结果导向”而觉得摸不着头脑，需要时间适应。</p>
+<p>再者，现实中<strong>纯粹的声明式</strong>和<strong>纯粹的命令式</strong>往往需要混合使用​。
+这就引出一个问题：如何在同一项目中协调两种范式？
+有时候混用会导致代码可读性下降甚至错误（例如在本应声明式的代码里夹杂命令式逻辑，会让人难以理解意图​）。</p>
+<p>最后，工具和调试支持对声明式语言来说也曾是瓶颈。
+比如早年XSLT调试工具匮乏，使开发复杂XML转换很痛苦。
+不过随着技术发展，这方面有所改善。</p>
+<p>总的说来，声明式编程提供了高抽象和高效率，但付出的代价是<strong>灵活性和透明度</strong>有所降低。
+当代码简单时，这种权衡无伤大雅，但当逻辑变复杂，声明式代码的<strong>可维护性</strong>反而会成为问题​。
+因此，经验丰富的开发者在使用声明式范式时会<strong>适度而为</strong>，在合适之处引入过程化控制以保持代码清晰度，从而兼顾两种范式的优点。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../4/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../6/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../4/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../6/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

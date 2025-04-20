@@ -1,0 +1,300 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>面向方面编程（Aspect-Oriented Programming, AOP） - Programming</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Programming</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="面向方面编程aspect-oriented-programming-aop"><a class="header" href="#面向方面编程aspect-oriented-programming-aop">面向方面编程（Aspect-Oriented Programming, AOP）</a></h1>
+<h2 id="产生背景"><a class="header" href="#产生背景">产生背景</a></h2>
+<p>面向方面编程（AOP）诞生于1990年代末，旨在解决面向对象编程（OOP）未能优雅处理的一类问题——<strong>横切关注点（Cross-cutting Concerns）</strong>。在大型软件系统中，除了核心业务逻辑，还存在许多贯穿多个模块的需求，如日志记录、权限校验、事务管理、性能监控等。这些代码往往散落在各个类中，造成<strong>代码散乱（Scattering）和逻辑缠结（Tangling）</strong>。</p>
+<p>即使在面向对象编程范式下，这些横切关注点也无法很好地模块化。例如，日志代码可能横跨不同模块，安全检查逻辑可能复制在多个组件中。为了解决这个问题，Gregor Kiczales等人在1997年前后提出了AOP理念，并开发了AspectJ（Java的一个AOP扩展）作为实践工具。</p>
+<p>AOP的内在动机源自于OOP的局限性：OOP强调按业务模型分解问题，但对于那些<strong>全局性质的需求</strong>（如日志、安全等），强行纳入OOP会破坏类的单一职责，使得各处充斥重复代码。AOP通过提供新的维度来封装这些横切关注点，使其从业务逻辑中分离出来。</p>
+<p>随着企业软件规模的增长，维护和变更这些横切需求变得异常繁琐且易错。例如，更改日志格式需要修改上百处代码，这暴露了软件在这方面的脆弱性，尤其是在企业级应用和框架开发中，开发者迫切寻找方法将这些关注点集中管理。AOP的出现正是为了解决这一需求。</p>
+<p>Xerox PARC的研究人员在学术界引入了AOP概念，2001年左右，随着AspectJ的成熟，产业界（尤其是Java社区）开始尝试将AOP应用于实际项目。Spring Framework早期就集成了AOP，用于声明式事务管理等功能。</p>
+<p>总体而言，AOP的产生背景是<strong>提高代码模块化</strong>，它为OOP难以处理的横切逻辑提供了解决方案。</p>
+<h2 id="内因与外因"><a class="header" href="#内因与外因">内因与外因</a></h2>
+<h3 id="内在动机"><a class="header" href="#内在动机">内在动机</a></h3>
+<p>在传统的OOP中，实现横切需求通常会导致<strong>代码重复</strong>和<strong>关注点分散</strong>。日志代码是典型的例子：每个类的方法开始和结束都可能有日志语句，这使得日志逻辑与业务逻辑交织在一起，不利于维护。面向方面编程的内在动机就是<strong>将这些重复散乱的代码单独抽取</strong>，通过AOP机制在需要的地方自动“织入”（Inject）这些逻辑。</p>
+<p>这种方式使得业务类只保留核心业务逻辑，实现了“关注点分离”：日志、安全等关注点被模块化到独立的**切面（Aspect）<strong>中，消除了横切代码散布的问题。AOP提供了</strong>切面（Aspect）、切入点（Pointcut）、通知（Advice）**机制，允许开发者声明在程序执行的哪些连接点（Join Points）上织入某段额外的逻辑。</p>
+<h3 id="外部推动"><a class="header" href="#外部推动">外部推动</a></h3>
+<p>企业应用的复杂性是AOP发展的主要推动力。大型企业应用需要满足多种非功能需求（如监控、审计、事务等），使用AOP能够大幅度降低实现和维护这些需求的成本。例如，通过AOP配置事务管理，开发者无需在每个数据库操作中显式控制事务，而由框架统一处理，这极大地提升了企业开发效率。</p>
+<p>框架开发的需求也推动了AOP的应用。许多框架（如Spring、EJB容器）希望提供通用服务而不侵入用户代码，而AOP正好提供了一种非侵入式的扩展机制，允许框架在不修改用户业务类的情况下增添功能。例如，Spring利用动态代理实现AOP特性，为Bean织入安全检查或事务处理。这样，框架的服务与业务代码解耦，用户只需声明需要哪些方面，无需关注细节实现。</p>
+<p>此外，随着软件架构逐步走向模块化，人们越来越重视解耦和可插拔能力。AOP通过提供插拔横切逻辑的手段，使得架构设计能以更清晰的层次处理不同关注点。这一理念也影响了后来的Microservices架构，其中各服务关注自身业务，而横切功能由网关或Sidecar代理完成，类似于AOP思想在架构层的应用。</p>
+<p>最后，<strong>学术界和工具的推动</strong>也不可忽视。AspectJ的成功和后来各种语言对AOP的支持（如.NET的PostSharp等）让AOP逐渐进入主流开发者视野。社区开始共享AOP的最佳实践，这些都推动了AOP的传播。</p>
+<h2 id="核心编程机制与思维方式"><a class="header" href="#核心编程机制与思维方式">核心编程机制与思维方式</a></h2>
+<p>AOP引入了一组不同于类和对象的新概念来实现横切关注点的模块化。
+主要概念有：<strong>切面（Aspect）</strong>、<strong>连接点（Join Point）</strong>、<strong>切入点（Pointcut）</strong>、<strong>通知（Advice）和织入（Weaving）</strong>。</p>
+<p>​简要描述了AOP的工作流程：开发者首先<strong>识别横切关注点</strong>，例如“日志记录”。
+然后定义一个封装该关注点的<strong>切面</strong>模块，其中包含具体的<strong>通知</strong>（Advice），即要在程序执行的哪些时刻插入的代码（如方法调用前、后或异常时执行的日志操作）。
+接下来通过<strong>切入点</strong>来指定在哪些连接点应用该切面。
+例如，可以定义一个切入点匹配“系统中所有名为*Service的类的public方法调用”。
+最后，通过<strong>织入</strong>过程，AOP编译器或运行时在目标连接点上插入通知代码，从而实现<strong>横切逻辑与原业务逻辑的合成</strong>​。
+织入可以发生在编译期、类加载期或运行期，取决于具体实现。</p>
+<p>思维方式上，AOP要求开发者<strong>从关注点维度考虑系统</strong>，而非仅按对象职责划分。
+在进行设计时，要识别出哪些功能是横切系统的，例如日志、安全、错误处理，把它们各自归为一个方面，然后定义应用范围。
+在编码时，开发者主要编写普通的业务类（不包含横切代码）和方面类（实现横切功能），以及配置切入点规则。
+这样最终系统的执行流程虽然在源码中不直接可见，但AOP保证按照规则织入，使得运行时<strong>逻辑等效</strong>于那些显式把横切代码写在各处的传统实现。</p>
+<p>一个典型的例子是日志AOP：我们定义一个日志切面，通知是在方法进入和退出时打印日志，切入点匹配所有业务方法。
+这样编译织入后，每个业务方法开头和结尾都有日志打印，但源代码里业务类本身并没有日志调用，保持了干净。</p>
+<p>AOP的思维方式可以说是<strong>纵切系统</strong>：过去我们沿着模块横向看代码，现在AOP允许我们沿关注点纵向抽出代码。
+通过这种二维划分（模块、方面），软件结构更为清晰。</p>
+<h2 id="解决了前代范式的哪些问题"><a class="header" href="#解决了前代范式的哪些问题">解决了前代范式的哪些问题</a></h2>
+<p>AOP作为OOP的补充，解决了面向对象所不擅长的一系列问题。</p>
+<p>首先，<strong>消除了横切关注点的代码散布</strong>。
+通过AOP，横跨许多模块的逻辑被集中到切面中实现，原先散落于各处的相似代码不再重复出现。
+例如，在没有AOP时，添加日志可能需要修改许多类，而有了AOP，只需在日志切面中维护一份逻辑即可，然后通过切入点应用于所有需要日志的地方​。
+这极大降低了代码重复，提高了<strong>一致性</strong>：当需要改变日志行为时，只要改切面即可，全局效果统一。
+而不使用AOP时，难免有遗漏或不一致。</p>
+<p>其次，<strong>业务逻辑更加纯粹</strong>。
+由于像事务、校验、缓存等横切代码被移出业务类，业务类的代码变得简洁，只关注核心功能。
+这提升了模块的<strong>内聚性</strong>和可读性，也符合单一职责原则。
+开发者可以更容易地理解和维护业务代码，因为干扰它的横切逻辑由AOP框架隐式处理。</p>
+<p>第三，<strong>改善了系统可维护性和可扩展性</strong>。
+当新增一个横切需求时（比如要增加审计日志），AOP允许直接创建新切面应用于特定切入点，不用侵入修改现有业务类，符合<strong>开闭原则</strong>。
+同时，如果某个横切需求不再需要，移除对应切面配置即可，业务代码完全不受影响。
+这种松耦合大大提高了系统的可演化性。</p>
+<p>第四，<strong>提高了开发效率</strong>。
+许多AOP框架提供声明式配置，开发者只需声明哪些类/方法需要哪些横切功能（比如通过注解或XML配置），框架在运行时动态地为这些类织入代理，实现所需功能。
+例如，在Spring中给类加上<code>@Transactional</code>注解，就自动获得事务处理能力，而不需要在代码中编写繁琐的事务开启、提交、回滚逻辑。
+这将原本枯燥易错的样板代码交由框架处理，开发者可以腾出精力专注业务实现。</p>
+<p>最后，AOP为实现一些高级功能提供了手段。
+比如性能分析，可以通过一个切面收集方法的执行时间而不侵入业务代码；安全框架可以使用AOP在调用业务方法前进行统一的权限验证。</p>
+<p>总而言之，AOP解决了OOP在<strong>代码散乱、职责交织、变更代价高</strong>等方面的问题，通过<strong>横切逻辑模块化</strong>使软件结构更清晰，<strong>增强了代码的可重用性和一致性</strong>​。</p>
+<h2 id="自身带来的新问题和挑战"><a class="header" href="#自身带来的新问题和挑战">自身带来的新问题和挑战</a></h2>
+<p>虽然AOP带来了诸多便利，但它也引入了一些值得注意的问题。</p>
+<p>首先，<strong>调试难度增加</strong>。
+由于AOP的织入使程序的控制流在源代码中不可见，开发者调试时可能会感到困惑：执行顺序被切面代码插入而改变。
+如果不了解AOP配置，读业务类源码时看不出某些操作实际上被增强了​。
+当出现问题时，必须意识到有切面在影响流程，否则很难找到Bug来源。
+例如，一个服务方法执行慢，原因可能是某个性能监控切面在其前后做了大量工作。
+调试AOP需要熟悉工具对切面织入的可视化支持，否则排查问题比较费力​。</p>
+<p>其次，<strong>运行时开销和复杂度</strong>。
+AOP（尤其是动态织入）底层可能通过代理或字节码操作实现，会带来一定性能损耗和复杂性。
+虽然一般来说相对功能本身开销可以忽略，但在高性能场景下，这层间接可能是需要考虑的因素。
+此外，由于AOP依赖框架，<strong>移植性</strong>可能受限​。
+不同语言/平台的AOP实现各异，使用AOP可能增加对特定框架的锁定。
+如果后来需要迁移到不支持AOP的平台，则横切逻辑需要手工实现。</p>
+<p>第三，<strong>认知负荷</strong>。
+并不是所有开发者都熟悉AOP概念，项目中使用AOP需要团队整体理解其原理，否则容易出现误用或困惑。
+例如，不小心定义了过宽的切入点会将切面应用到不该应用的地方，导致难以察觉的副作用。
+又如多个切面作用于同一连接点时，执行顺序可能很重要，如果开发者不了解框架的调用顺序，可能引入Bug。</p>
+<p>第四，<strong>工具支持局限</strong>。
+相比主流OOP，过去IDE对AOP的支持不完善，比如跳转定义可能跳不过去切面里的代码。
+不过近年来已有所改善，一些IDE插件能显示切面影响。</p>
+<p>第五，<strong>过度使用风险</strong>。
+AOP提供了强大的能力，但如果滥用，可能<strong>造成代码逻辑难以追踪</strong>。
+把太多东西都做成切面可能让代码分散在各处，对新人非常不友好。
+一些敏感逻辑放在切面里也可能破坏系统的模块边界（切面有时需要使用反射突破封装性）。
+因此业界也有建议谨慎使用AOP。</p>
+<p>最后，<strong>代码复杂性增加</strong>。
+AOP让程序在运行时动态组合模块，这在测试时需要特别注意。
+切面逻辑可能干扰原本模块的独立测试，需要引入模拟（Mock）或特殊配置才能隔离切面影响。
+不少团队在引入AOP时会同时推行严格的测试策略和监控工具，以确保切面行为在预期之内。
+切面增加了控制流复杂度，要求开发者对AOP框架的运行机制作充分了解，否则<strong>测试和调优</strong>会面临额外挑战。</p>
+<p>总而言之，面向方面编程在提供强大功能的同时，也引入了<strong>理解和维护成本</strong>。
+妥善使用AOP需要团队共享其理念并制定规范，不宜滥用。
+只有将AOP控制在解决横切关注点的合理范围内，并辅以良好的工具支持和文档，才能发挥其长处而避免潜在的问题。
+通过平衡使用，AOP仍然是架构师手中宝贵的工具，可显著改善大型系统的模块化水平，但必须谨慎，<strong>适度而为</strong>，以免顾此失彼。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../7/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../9/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../7/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../9/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
